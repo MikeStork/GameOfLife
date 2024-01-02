@@ -16,44 +16,33 @@ public class Entity {
 
     public Integer CheckSurroundings(Entity[][] ENTITY_MAP) {
         Integer AmountOfLivingEntities = 0;
-        if(X-1>-1 && Y-1>-1) {
-            if (ENTITY_MAP[Y - 1][X - 1].alive) {
+        Integer MAX_X_COORD = Projector.WIDTH-1;
+        Integer MAX_Y_COORD = Projector.HEIGHT-1;
+            if (ENTITY_MAP[(MAX_Y_COORD+(Y - 1))%MAX_Y_COORD][(MAX_X_COORD+(X - 1))%MAX_X_COORD].alive) {
                 AmountOfLivingEntities++;
             }
-        }
-        if(X-1>-1) {
-            if (ENTITY_MAP[Y][X - 1].alive) {
+            if (ENTITY_MAP[Y][(MAX_X_COORD+(X - 1))%MAX_X_COORD].alive) {
                 AmountOfLivingEntities++;
             }
-        }
-        if(X-1>-1 & Y+1<Projector.HEIGHT-1) {
-            if (ENTITY_MAP[Y + 1][X - 1].alive) {
+            if (ENTITY_MAP[(MAX_Y_COORD+(Y + 1))%MAX_Y_COORD][(MAX_X_COORD+(X - 1))%MAX_X_COORD].alive) {
                 AmountOfLivingEntities++;
             }
-        }
-        if(Y-1>-1) {
-            if (ENTITY_MAP[Y - 1][X].alive) {
+            if (ENTITY_MAP[(MAX_Y_COORD+(Y - 1))%MAX_Y_COORD][X].alive) {
                 AmountOfLivingEntities++;
             }
-        }
-        if(X+1<Projector.WIDTH-1 && Y+1<Projector.HEIGHT-1){
-            if(ENTITY_MAP[Y+1][X+1].alive){
+            if(ENTITY_MAP[(MAX_Y_COORD+(Y+1))%MAX_Y_COORD][(MAX_X_COORD+(X+1))%MAX_X_COORD].alive){
                 AmountOfLivingEntities++;
             }
-        }
-        if(Y+1<Projector.HEIGHT-1){
-            if(ENTITY_MAP[Y+1][X].alive){AmountOfLivingEntities++;}
-        }
-        if(X+1<Projector.WIDTH-1 && Y-1>-1) {
-            if (ENTITY_MAP[Y - 1][X + 1].alive) {
+            if(ENTITY_MAP[(MAX_Y_COORD+(Y+1))%MAX_Y_COORD][X].alive){AmountOfLivingEntities++;}
+
+            if (ENTITY_MAP[(MAX_Y_COORD+(Y - 1))%MAX_Y_COORD][(MAX_X_COORD+(X + 1))%MAX_X_COORD].alive) {
                 AmountOfLivingEntities++;
             }
-        }
-        if(X+1<Projector.WIDTH-1) {
-            if (ENTITY_MAP[Y][X + 1].alive) {
+
+            if (ENTITY_MAP[Y][(MAX_X_COORD+(X + 1))%MAX_X_COORD].alive) {
                 AmountOfLivingEntities++;
             }
-        }
+
         return AmountOfLivingEntities;
     }
 }
