@@ -1,14 +1,16 @@
-package app;
+package app.models;
+
+import app.persistence.CONSTANTS;
 
 public class Entity {
     public static String color = CONSTANTS.BLUE;
-    public static String SPRITE_ALIVE = "E";
-    public static String SPRITE_DEAD = " ";
-    public boolean alive = false;
+    public static String SPRITE_ALIVE = color+"E"+CONSTANTS.RESET;
+    public static String SPRITE_DEAD = CONSTANTS.WHITE+" "+CONSTANTS.RESET;
+    public boolean alive;
     public int X;
     public int Y;
 
-    Entity( int y,int x, boolean alive){
+    public Entity(int y, int x, boolean alive){
         this.X = x;
         this.Y = y;
         this.alive = alive;
@@ -16,8 +18,8 @@ public class Entity {
 
     public Integer CheckSurroundings(Entity[][] ENTITY_MAP) {
         Integer AmountOfLivingEntities = 0;
-        Integer MAX_X_COORD = Projector.WIDTH-1;
-        Integer MAX_Y_COORD = Projector.HEIGHT-1;
+        int MAX_X_COORD = Projector.WIDTH-1;
+        int MAX_Y_COORD = Projector.HEIGHT-1;
             if (ENTITY_MAP[(MAX_Y_COORD+(Y - 1))%MAX_Y_COORD][(MAX_X_COORD+(X - 1))%MAX_X_COORD].alive) {
                 AmountOfLivingEntities++;
             }

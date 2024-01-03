@@ -1,4 +1,7 @@
-package app;
+package app.models;
+
+import app.UpdateGameStateTask;
+import app.persistence.CONSTANTS;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,15 +15,15 @@ public class Projector {
     static int HEIGHT;
     private boolean running;
     private final long OPTIMAL_TIME = 1000000000 / CONSTANTS.FPS_TARGET;
-    public int cycle = 0;
+    int cycle = 0;
     Entity[][] ENTITY_MAP;
 
     Entity[][] NEXT_ENTITY_MAP;
     String[][] PRINT_MAP;
 
-    Projector(int width, int height, Entity[][] EntryEntities){
-        this.WIDTH = width;
-        this.HEIGHT = height;
+    public Projector(int width, int height, Entity[][] EntryEntities){
+        WIDTH = width;
+        HEIGHT = height;
         ENTITY_MAP = new Entity[HEIGHT][WIDTH];
         PRINT_MAP = new String[HEIGHT][WIDTH];
         for (int i = 0; i < WIDTH; i++) {
@@ -44,7 +47,7 @@ public class Projector {
         running = true;
         long lastUpdateTime = System.nanoTime();
         String boundry = Boundry();
-        Integer NUM_OF_CORES = Integer.valueOf(System.getenv("NUMBER_OF_PROCESSORS"))-2;
+        int NUM_OF_CORES = Integer.parseInt(System.getenv("NUMBER_OF_PROCESSORS"))-2;
         while (running) {
             long currentTime = System.nanoTime();
             long elapsedTime = currentTime - lastUpdateTime;
@@ -96,7 +99,7 @@ public class Projector {
                 }
             }
 
-            if(this.cycle>=MAX_CYCLES){running = false;}
+            if(this.cycle>=MAX_CYCLES){stop();}
         }
     }
 
@@ -121,7 +124,7 @@ public class Projector {
             ex.printStackTrace();
         }
     }
-    void update(Integer START_X, Integer START_Y, Integer END_X, Integer END_Y) {
+    public void update(Integer START_X, Integer START_Y, Integer END_X, Integer END_Y) {
             for (int j = START_Y; j < END_Y; j++) {
                 for (int i = START_X; i < END_X; i++) {
                     NEXT_ENTITY_MAP[j][i] = new Entity(j,i,false);
@@ -136,10 +139,9 @@ public class Projector {
                        }
                     }
                 }
-            };
-//            ENTITY_MAP = NEXT_ENTITY_MAP;
+            }
 
-        }
+    }
     /**
      * Renders singular frame of game state
      * @param MAP Mapped positions of entities using 2dim array of strings
@@ -156,34 +158,30 @@ public class Projector {
         return String.join("|\n",processed_rows);
     }
     static String Boundry(){
-        ArrayList<String> boundry = new ArrayList<>();
+        ArrayList<String> boundryPart = new ArrayList<>();
         for (int i = 0; i < WIDTH; i++) {
-            boundry.add("=");
+            boundryPart.add("=");
         }
 
-        return String.join("=",boundry);
+        return String.join("=",boundryPart);
     }
     /**
-     * Calculates the lengths of segments when dividing a larger line into x equal parts.
+     * Calculates the lengths of segments when dividing a larger line into equal parts.
      *
      * @param totalLength The total length of the larger line.
-     * @param x           The number of equal parts to divide the larger line into.
+     * @param partsToDivide           The number of equal parts to divide the larger line into.
      * @return An array of integers representing the lengths of each segment.
      */
-    public static int[] calculateSegmentLengths(int totalLength, int x) {
-        // Calculate the length of each segment
-        int segmentLength = totalLength / x;
-        // Calculate the remaining length after distributing equally
-        int remainingLength = totalLength % x;
+    public static int[] calculateSegmentLengths(int totalLength, int partsToDivide) {
+        int segmentLength = totalLength / partsToDivide;
 
-        // Create an array to store segment lengths
-        int[] lengths = new int[x];
+        int remainingLength = totalLength % partsToDivide;
 
-        // Fill the array with lengths for segments
-        for (int i = 0; i < x - remainingLength; i++) {
+        int[] lengths = new int[partsToDivide];
+        for (int i = 0; i < partsToDivide - remainingLength; i++) {
             lengths[i] = segmentLength;
         }
-        for (int i = x - remainingLength; i < x; i++) {
+        for (int i = partsToDivide - remainingLength; i < partsToDivide; i++) {
             lengths[i] = segmentLength + 1;
         }
 

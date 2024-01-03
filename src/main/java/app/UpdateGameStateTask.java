@@ -1,11 +1,13 @@
 package app;
 
+import app.models.Projector;
+
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 public class UpdateGameStateTask implements Runnable {
 
-    private CyclicBarrier barrier;
+    private final CyclicBarrier barrier;
     Projector projectorToUpdate;
     Integer START_X;
     Integer START_Y;
@@ -28,8 +30,9 @@ public class UpdateGameStateTask implements Runnable {
             projectorToUpdate.update(START_X,START_Y,END_X,END_Y);
             barrier.await();
             System.out.println(Thread.currentThread().threadId() +
-                    " is released \nProcessed rows from: "+START_Y+" to "+(END_Y-1)+" Overall: "+(END_Y-START_Y)+ "\nProcessed cols from: "+START_X+" to "+(END_X-1)+" Overall: "+String.valueOf(END_X-START_X));
+                    " is released \nProcessed rows from: "+START_Y+" to "+(END_Y-1)+" Overall: "+(END_Y-START_Y)+ "\nProcessed cols from: "+START_X+" to "+(END_X-1)+" Overall: "+ (END_X - START_X));
         } catch (InterruptedException | BrokenBarrierException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }

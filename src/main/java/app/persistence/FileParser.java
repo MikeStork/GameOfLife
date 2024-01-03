@@ -1,13 +1,31 @@
-package app;
+package app.persistence;
+
+import app.models.Entity;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class FileParser {
+    public String getFilePath() {
+        return FilePath;
+    }
+
+    public Integer getGAME_WIDTH() {
+        return GAME_WIDTH;
+    }
+
+    public Integer getGAME_HEIGHT() {
+        return GAME_HEIGHT;
+    }
+
+    public Integer getITERATIONS() {
+        return ITERATIONS;
+    }
+
+    public Entity[] getENTRY_ENTITIES() {
+        return ENTRY_ENTITIES;
+    }
+
     String FilePath;
     Integer GAME_WIDTH;
     Integer GAME_HEIGHT;
@@ -46,6 +64,7 @@ public class FileParser {
 
             }
         } catch (Exception e) {
+            System.out.println("An error occured during file reading\n"+e.getMessage());
             e.printStackTrace();
         }
     }

@@ -1,7 +1,7 @@
-package app;
+package app.persistence;
 
 public class CONSTANTS {
-    public static final int FPS_TARGET = 1;
+    public static final int FPS_TARGET = 4;
 
     public static final String RESET = "\033[0m";  // Reset
 
